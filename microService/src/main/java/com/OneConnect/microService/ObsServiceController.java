@@ -22,7 +22,6 @@ public class ObsServiceController {
 	
 	@RequestMapping("/service/uploadFile/{key}/{file}")
 	public void uploadFile(@PathVariable String key,@PathVariable File file) throws AmazonClientException, FileNotFoundException {
-		System.out.println(key);
 		obsService.uploadFile(key,file);
 	}
 	
@@ -33,7 +32,6 @@ public class ObsServiceController {
 	
 	@RequestMapping("/service/getFile/{key:.*}")
 	public S3Object getFile(@PathVariable String key) throws AmazonClientException, IOException {
-		System.out.println(key);
 		return obsService.getFile(key);
 	}
 	

@@ -60,7 +60,6 @@ public class ObsService {
 	 */
 	public void uploadFile(String key,File file) throws AmazonClientException, FileNotFoundException {
 		PutObjectResult result = service.putObject(bucketName, key, file);
-		System.out.println(result.getObjectKey());
 	}
 	
 	/*
@@ -78,7 +77,6 @@ public class ObsService {
 	 * @Return: S3Object
 	 */
 	public S3Object getFile(String key) throws AmazonClientException, IOException {
-		System.out.println(key);
 		S3Object object = service.getObject(bucketName,key);
 		S3ObjectInputStream s3is  = object.getObjectContent();
 		FileOutputStream fos = new FileOutputStream(key);
@@ -120,7 +118,6 @@ public class ObsService {
     	listObjectRequest.setBucketName(bucketName);
     	listObjectRequest.setMaxKeys(1000);
     	ObjectListing objectList = service.listObjects(listObjectRequest);
-    	System.out.println(objectList.getObjectSummaries().size());
     	List<String>resultList = new ArrayList<String>();
     	for (S3Object obj :objectList.getObjectSummaries()) {
     		resultList.add(obj.getKey());
