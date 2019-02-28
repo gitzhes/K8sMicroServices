@@ -5,11 +5,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import com.pingan.radosgw.sdk.config.ObsClientConfig;
 import com.pingan.radosgw.sdk.service.RadosgwService;
 import com.pingan.radosgw.sdk.service.RadosgwServiceFactory;
+import com.pingan.radosgw.sdk.service.request.ListObjectsRequest;
+
 import repkg.com.amazonaws.AmazonClientException;
+import repkg.com.amazonaws.services.s3.model.ObjectListing;
 import repkg.com.amazonaws.services.s3.model.PutObjectResult;
 import repkg.com.amazonaws.services.s3.model.S3Object;
 import repkg.com.amazonaws.services.s3.model.S3ObjectInputStream;
@@ -101,4 +107,25 @@ public class ObsService {
 	public void deleteFile(String key) throws AmazonClientException {
 		service.deleteObject("bucketName", key);
 	}	
+	
+	
+	/*
+	 * @Description: get the url of specific file
+	 * @Params: String prefix  // directory of bucket
+	 * @Reutrn: List<String>  //key name of the bucket  
+	 */
+    public List<String> getFileList(String prefix) throws AmazonClientException {
+    	ListObjectsRequest listObjectRequest = new ListObjectsRequest();
+    	listObjectRequest.setPrefix(prefix);
+    	listObjectRequest.setBucketName(bucketName);
+    	listObjectRequest.setMaxKeys(1000);
+    	ObjectListing objectList = service.listObjects(listObjectRequest);
+    	System.out.println(objectList.getObjectSummaries().size());
+    	List<String>resultList = new ArrayList<String>();
+    	for (S3Object obj :objectList.getObjectSummaries()) {
+    		resultList.add(obj.getKey());
+    	}
+    	return resultList;
+    }
+	
 }

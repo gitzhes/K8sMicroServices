@@ -4,13 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import repkg.com.amazonaws.AmazonClientException;
 import repkg.com.amazonaws.services.s3.model.S3Object;
 
@@ -38,7 +37,7 @@ public class ObsServiceController {
 		return obsService.getFile(key);
 	}
 	
-	@RequestMapping("/service/getFile/{key:.*}")
+	@RequestMapping("/service/getFileUrl/{key:.*}")
 	public String getFileUrl(@PathVariable String key) throws AmazonClientException {
 		return obsService.getFileUrl(key);
 	}
@@ -47,4 +46,10 @@ public class ObsServiceController {
 	public void deleteFile(@PathVariable String key) throws AmazonClientException {
 		obsService.deleteFile(key);
 	}
+	
+	@RequestMapping(value = {"/service/getFileList/{prefix}","/service/getFileList"})
+	public List<String> getFileList(@PathVariable (value="prefix",required = false) String prefix) throws AmazonClientException {
+		return obsService.getFileList(prefix);
+	}
+	
 }
