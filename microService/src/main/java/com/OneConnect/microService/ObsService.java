@@ -110,7 +110,7 @@ public class ObsService {
 	
 	
 	/*
-	 * @Description: get the url of specific file
+	 * @Description: get the file list of specific directory of bucket
 	 * @Params: String prefix  // directory of bucket
 	 * @Reutrn: List<String>  //key name of the bucket  
 	 */
